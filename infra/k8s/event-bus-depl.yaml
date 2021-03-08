@@ -18,3 +18,18 @@ spec:
         - name: event-bus
           image: qmkiwi/event-bus:latest
           
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-srv
+spec:
+  selector:
+    app: event-bus
+  type: ClusterIP
+  ports:
+    - name: event-bus
+      protocol: TCP
+      port: 4005
+      targetPort: 4005
+
