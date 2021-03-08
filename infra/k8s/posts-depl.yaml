@@ -17,6 +17,7 @@ spec:
       containers:
         - name: posts
           image: qmkiwi/posts:latest
+          imagePullPolicy: Always
           
 ---
 apiVersion: v1

@@ -15,14 +15,15 @@ app.post('/events', async (req, res) => {
 
     events.push(event);
 
-    // Post Service
-    await axios.post('http://localhost:4000/events', event);
+    // emit the event to local: Post Service: http://localhost:4000/events
+    // emit the event to minikube: Post Service pod: http://posts-clusterip-srv:4000/events
+    await axios.post('http://posts-clusterip-srv:4000/events', event);
     // Comment Service
-    await axios.post('http://localhost:4001/events', event);
-    // Query service
-    await axios.post('http://localhost:4002/events', event);
-    // Moderation service
-    await axios.post('http://localhost:4003/events', event);
+    await axios.post('http://comments-srv:4001/events', event);
+    // // Query service
+    await axios.post('http://query-srv:4002/events', event);
+    // // Moderation service
+    await axios.post('http://moderation-srv:4003/events', event);
 
 
     res.send({ status: 'OK' });
