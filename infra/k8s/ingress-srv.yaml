@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  # Ingress frequently uses annotations to configure some options depending on the Ingress controller
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  # rules tell how the nginx ingress controller how to route the request
+  rules:
+    - host: posts.com
+      http:
+        paths: 
+              # path tells what is the incoming request path
+           -  path: /posts
+              backend:
+                serviceName: posts-clusterip-srv
+                servicePort: 4000
