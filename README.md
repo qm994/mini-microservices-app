@@ -6,6 +6,7 @@
 # After introduce the LoadBalancer and Ingress-Nginx
 
 Markup : 
+         
          * LoadBalancer: It is exactly located outside the cluster and provisioned by our cloud provider.
            * Its role: Direct outside world traffic to the pod in the cluster. Here the pod is Ingress pod;
  
