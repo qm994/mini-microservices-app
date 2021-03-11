@@ -6,7 +6,10 @@ export default ({ postId }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
+
+        // local test: localhost:4001
+        // cluster ingress host: posts.com
+        await axios.post(`http://posts.com/posts/${postId}/comments`, {
             content
         });
         setContent('')

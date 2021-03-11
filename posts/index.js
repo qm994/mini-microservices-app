@@ -15,7 +15,7 @@ app.get('/posts', (req, res) => {
     res.send(posts); 
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
     const id = randomBytes(4).toString('hex');
     const { title } = req.body;
     if(!title) {
@@ -27,13 +27,17 @@ app.post('/posts', async (req, res) => {
 
     // emit the event local event-bus service: http://localhost:4005/events
     // emit the event minikube event-bus pod: http://event-bus-srv:4005/events
-    await axios.post('http://event-bus-srv:4005/events', {
-        type: 'PostCreated',
-        data: posts[id]
-    });
-
-    res.status(201).send(posts[id]);
-
+    try {
+        await axios.post('http://event-bus-srv:4005/events', {
+            type: 'PostCreated',
+            data: posts[id]
+        });
+        res.status(201).send(posts[id]);
+    } catch (error) {
+        console.error('PostCreated error to event bus', error)
+        res.status(500)
+    }
+    
 });
 
 

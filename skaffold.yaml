@@ -1,0 +1,68 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+
+build:
+  local:
+    push: true
+  # If the client folder has some 'js' files gets change,
+  # the skaffold will just copy the latest file to the pod;
+  # But if the changed file isnt a 'js' file, the skaffold will try to 
+  # rebuild the image
+  artifacts:
+    - image: qmkiwi/client
+      context: client
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+
+    - image: qmkiwi/comments
+      context: comments
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: qmkiwi/event-bus
+      context: event-bus
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: qmkiwi/moderation
+      context: moderation
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: qmkiwi/query
+      context: query
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+    - image: qmkiwi/posts
+      context: posts
+      docker: 
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
